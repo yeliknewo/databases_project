@@ -1,16 +1,22 @@
-CREATE TABLE Users
+CREATE TABLE Restaurants
 (
-    UserID  INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    Name    VARCHAR(20),
-    Age     NUMERIC(3),
-    HouseID INT,
-    CONSTRAINT  Users_FK1    FOREIGN KEY (HouseID)    REFERENCES  Houses(HouseID)
+    LocationID      INT,
+    RestaurantID    INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    Cuisine         VARCHAR(20),
+    CONSTRAINT  Restaurants_FK2 FOREIGN KEY (LocationID)    REFERENCES  Locations(LocationID)
 );
 
-CREATE TABLE TheatreMovies
+CREATE TABLE Houses
 (
-    TheatreID   INT,
-    MovieID     INT,
-    CONSTRAINT  TheatreMovies_FK1   FOREIGN KEY (TheatreID) REFERENCES  Theatres(TheatreID),
-    CONSTRAINT  TheatreMovies_FK2   FOREIGN KEY (MovieID)   REFERENCES  Movies(MovieID)
+    HouseID     INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    LocationID  INT,
+    CONSTRAINT  Houses_FK1  FOREIGN KEY (LocationID)    REFERENCES  Locations(LocationID)
+);
+
+CREATE TABLE Theatres
+(
+    TheatreID   INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    LocationID  INT,
+    TheatreName VARCHAR(20),
+    CONSTRAINT  Theatres_FK1    FOREIGN KEY (LocationID)    REFERENCES  Locations(LocationID)
 );

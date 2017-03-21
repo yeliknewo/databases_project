@@ -2,22 +2,19 @@ DROP TABLE IF EXISTS UserDevices;
 DROP TABLE IF EXISTS UserPreferences;
 
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS RestaurantFoods;
 DROP TABLE IF EXISTS TheatreMovies;
 
-DROP TABLE IF EXISTS MoviePreferences;
-DROP TABLE IF EXISTS FoodPreferences;
-DROP TABLE IF EXISTS RestaurantFoods;
-DROP TABLE IF EXISTS RestaurantLocations;
-DROP TABLE IF EXISTS LocationPreferences;
+DROP TABLE IF EXISTS Restaurants;
 DROP TABLE IF EXISTS Houses;
 DROP TABLE IF EXISTS Theatres;
 
-DROP TABLE IF EXISTS Devices;
-DROP TABLE IF EXISTS Preferences;
 DROP TABLE IF EXISTS Movies;
 DROP TABLE IF EXISTS Foods;
-DROP TABLE IF EXISTS Restaurants;
 DROP TABLE IF EXISTS Locations;
+
+DROP TABLE IF EXISTS Devices;
+DROP TABLE IF EXISTS Preferences;
 
 CREATE TABLE Devices
 (
@@ -35,72 +32,40 @@ CREATE TABLE Preferences
 
 CREATE TABLE Movies
 (
+    PreferenceID    INT,
     MovieID         INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
     MovieName       VARCHAR(20),
     Genre           VARCHAR(20),
-    Description     VARCHAR(50)
+    Description     VARCHAR(50),
+    CONSTRAINT  Movies_FK1    FOREIGN KEY (PreferenceID)  REFERENCES  Preferences(PreferenceID)
 );
 
 CREATE TABLE Foods
 (
+    PreferenceID    INT,
     FoodID          INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
     FoodName        VARCHAR(20),
-    FoodType        VARCHAR(20)
-);
-
-CREATE TABLE Restaurants
-(
-    RestaurantID    INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    Cuisine         VARCHAR(20)
+    FoodType        VARCHAR(20),
+    CONSTRAINT  Foods_FK1 FOREIGN KEY (PreferenceID)  REFERENCES  Preferences(PreferenceID)
 );
 
 CREATE TABLE Locations
 (
+    PreferenceID    INT,
     LocationID      INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
     Address         VARCHAR(20),
     City            VARCHAR(20),
     State           VARCHAR(2),
-    ZipCode         VARCHAR(5)
+    ZipCode         VARCHAR(5),
+    CONSTRAINT  Locations_FK1 FOREIGN KEY (PreferenceID)  REFERENCES  Preferences(PreferenceID)
 );
 
-CREATE TABLE MoviePreferences
+CREATE TABLE Restaurants
 (
-    PreferenceID    INT,
-    MovieID         INT,
-    CONSTRAINT  MoviePreferences_FK1    FOREIGN KEY (PreferenceID)  REFERENCES  Preferences(PreferenceID),
-    CONSTRAINT  MoviePreferences_FK2    FOREIGN KEY (MovieID)       REFERENCES  Movies(MovieID)
-);
-
-CREATE TABLE FoodPreferences
-(
-    PreferenceID    INT,
-    FoodID          INT,
-    CONSTRAINT  FoodPreferences_FK1 FOREIGN KEY (PreferenceID)  REFERENCES  Preferences(PreferenceID),
-    CONSTRAINT  FoodPreferences_FK2 FOREIGN KEY (FoodID)        REFERENCES  Foods(FoodID)
-);
-
-CREATE TABLE RestaurantFoods
-(
-    RestaurantID    INT,
-    FoodID          INT,
-    CONSTRAINT  RestaurantFoods_FK1 FOREIGN KEY (RestaurantID)  REFERENCES  Restaurants(RestaurantID),
-    CONSTRAINT  RestaurantFoods_FK2 FOREIGN KEY (FoodID)        REFERENCES  Foods(FoodID)
-);
-
-CREATE TABLE RestaurantLocations
-(
-    RestaurantID    INT,
     LocationID      INT,
-    CONSTRAINT  RestaurantLocations_FK1 FOREIGN KEY (RestaurantID)  REFERENCES  Restaurants(RestaurantID),
-    CONSTRAINT  RestaurantLocations_FK2 FOREIGN KEY (LocationID)    REFERENCES  Locations(LocationID)
-);
-
-CREATE TABLE LocationPreferences
-(
-    PreferenceID    INT,
-    LocationID      INT,
-    CONSTRAINT  LocationPreferences_FK1 FOREIGN KEY (PreferenceID)  REFERENCES  Preferences(PreferenceID),
-    CONSTRAINT  LocationPreferences_FK2 FOREIGN KEY (LocationID)    REFERENCES  Locations(LocationID)
+    RestaurantID    INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    Cuisine         VARCHAR(20),
+    CONSTRAINT  Restaurants_FK2 FOREIGN KEY (LocationID)    REFERENCES  Locations(LocationID)
 );
 
 CREATE TABLE Houses
@@ -125,6 +90,14 @@ CREATE TABLE Users
     Age     NUMERIC(3),
     HouseID INT,
     CONSTRAINT  Users_FK1    FOREIGN KEY (HouseID)    REFERENCES  Houses(HouseID)
+);
+
+CREATE TABLE RestaurantFoods
+(
+    RestaurantID    INT,
+    FoodID          INT,
+    CONSTRAINT  RestaurantFoods_FK1 FOREIGN KEY (RestaurantID)  REFERENCES  Restaurants(RestaurantID),
+    CONSTRAINT  RestaurantFoods_FK2 FOREIGN KEY (FoodID)        REFERENCES  Foods(FoodID)
 );
 
 CREATE TABLE TheatreMovies

@@ -1,1 +1,1 @@
-INSERT INTO Preferences (Type) VALUES ()
+INSERT INTO Preferences (Type) VALUES ("Movie"), ("Food"), ("Restaurant");
