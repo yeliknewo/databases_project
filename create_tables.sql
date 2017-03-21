@@ -23,7 +23,7 @@ CREATE TABLE Devices
 (
     DeviceID            INT  AUTO_INCREMENT PRIMARY KEY NOT NULL,
     DeviceName          VARCHAR(20),
-    DeviceType          VARCHAR(5),
+    DeviceType          VARCHAR(20),
     DeviceDescription   VARCHAR(50)
 );
 
